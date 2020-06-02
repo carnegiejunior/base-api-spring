@@ -1,6 +1,6 @@
---drop table if exists user cascade;
---drop table if exists request cascade;
---drop table if exists request_state cascade;
+drop table if exists user cascade;
+drop table if exists request cascade;
+drop table if exists request_state cascade;
 
 create table user(
 	id bigint auto_increment not null primary key,

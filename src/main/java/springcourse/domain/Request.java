@@ -58,6 +58,6 @@ public class Request implements Serializable{
 	private List<RequestStage> stages = new ArrayList<>();
 	
 	@ManyToOne
-	@JoinColumn(name = "user_id")
-	private User user;
+	@JoinColumn(name = "owner_id")
+	private User owner;
 }
