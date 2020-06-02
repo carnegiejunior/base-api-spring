@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import springcourse.domain.enums.Role;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,4 +19,5 @@ public class User {
 	private String password;
 	private List<Request> requests = new ArrayList<>();
 	private List<RequestStage> stages = new ArrayList<>();
+	private List<Role> roles = new ArrayList<>();
 }
