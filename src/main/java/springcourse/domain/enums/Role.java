@@ -1,6 +1,6 @@
 package springcourse.domain.enums;
 
 public enum Role {
-	ADMIN,
+	ADMINISTRATOR,
 	AGENT
 }
