@@ -1,5 +1,6 @@
 package springcourse.domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,8 +27,10 @@ import springcourse.domain.enums.Role;
 
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity(name = "user")
-public class User {
+public class User implements Serializable{
 	
+	private static final long serialVersionUID = 1L;
+
 	@EqualsAndHashCode.Include
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Id

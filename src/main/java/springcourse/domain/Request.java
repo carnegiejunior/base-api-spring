@@ -1,5 +1,6 @@
 package springcourse.domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -32,8 +33,10 @@ import springcourse.domain.enums.RequestState;
 
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity(name = "request")
-public class Request {
+public class Request implements Serializable{
 	
+	private static final long serialVersionUID = 1L;
+
 	@EqualsAndHashCode.Include
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Id
