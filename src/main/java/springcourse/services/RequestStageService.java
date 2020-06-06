@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import springcourse.domain.RequestStage;
@@ -39,9 +40,10 @@ public class RequestStageService {
 	}
 	
 	
-	public List<RequestStage> stagesByRequestId(Long id){
+	public List<RequestStage> listAllByRequestId(Long id){
 		
 		return this.requestStageRepository.findAllByRequestId(id);
 		
 	}
+
 }

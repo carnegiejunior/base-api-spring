@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 
 import lombok.AllArgsConstructor;
@@ -49,8 +50,10 @@ public class User implements Serializable{
 	private Role role;
 
 	@OneToMany(mappedBy = "owner")
+	@JsonIgnore
 	private List<Request> requests = new ArrayList<>();
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "owner")
 	private List<RequestStage> stages = new ArrayList<>();
 	
