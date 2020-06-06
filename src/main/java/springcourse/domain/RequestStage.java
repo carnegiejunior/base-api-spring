@@ -29,7 +29,7 @@ import springcourse.domain.enums.RequestState;
 @Getter @Setter
 
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@Entity(name = "request_stage")
+@Entity(name = "requests_stages")
 public class RequestStage implements Serializable {
 	
 	private static final long serialVersionUID = 1L;

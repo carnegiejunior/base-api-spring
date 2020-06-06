@@ -18,6 +18,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.springframework.data.annotation.CreatedDate;
+
 import com.sun.istack.NotNull;
 
 import lombok.AllArgsConstructor;
@@ -32,7 +34,7 @@ import springcourse.domain.enums.RequestState;
 @Getter @Setter
 
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@Entity(name = "request")
+@Entity(name = "requests")
 public class Request implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
@@ -49,6 +51,7 @@ public class Request implements Serializable{
 	
 	@NotNull
 	@Temporal(TemporalType.TIMESTAMP)
+	@CreatedDate
 	private Date creationDate; 
 	
 	@Enumerated(EnumType.STRING)

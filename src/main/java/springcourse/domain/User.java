@@ -26,7 +26,7 @@ import springcourse.domain.enums.Role;
 @Getter @Setter
 
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@Entity(name = "user")
+@Entity(name = "users")
 public class User implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
