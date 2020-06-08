@@ -20,6 +20,7 @@ import javax.persistence.TemporalType;
 
 import org.springframework.data.annotation.CreatedDate;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 
 import lombok.AllArgsConstructor;
@@ -58,6 +59,7 @@ public class Request implements Serializable{
 	private RequestState state;
 	
 	@OneToMany(mappedBy = "request")
+	@Getter(onMethod = @__({@JsonIgnore}))
 	private List<RequestStage> stages = new ArrayList<>();
 	
 	@ManyToOne

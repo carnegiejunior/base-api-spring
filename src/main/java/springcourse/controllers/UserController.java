@@ -1,7 +1,9 @@
 package springcourse.controllers;
 
 import java.util.List;
+import java.util.Optional;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,9 +37,16 @@ public class UserController {
 	
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<User> update(@RequestBody User user, @PathVariable(name = "id") Long id) {
-		user.setId(id);
-		User updatedUser = this.userService.save(user); 
-		return ResponseEntity.ok(updatedUser);
+		
+		Optional<User> userFound = this.userService.getOptionalById(id);
+		if (userFound.isPresent()) {
+
+			BeanUtils.copyProperties(user, userFound.get(), "id");
+			
+			User updatedUser = this.userService.update(userFound.get()); 
+			return ResponseEntity.ok(updatedUser);
+		}
+		return ResponseEntity.notFound().build();			
 	}
 
 	@GetMapping(value = "/{id}")
@@ -62,5 +71,15 @@ public class UserController {
 	public ResponseEntity<List<Request>> listAllRequestsByUserId(@PathVariable(name = "id") Long id){
 		return ResponseEntity.ok( this.requestService.listAllByOnwerId(id));
 	}
+	
+	@PostMapping(value = "/{id}/requests")
+	public ResponseEntity<Request> InsertRequestByUserId(@PathVariable(name = "id") Long id, @RequestBody Request request){
+		Optional<User> user = this.userService.getOptionalById(id);
+		if (user.isPresent()) {
+			request.setOwner(user.get());
+			return ResponseEntity.ok(this.requestService.save(request));
+		}
+		return ResponseEntity.notFound().build();		
+	}	
 
 }

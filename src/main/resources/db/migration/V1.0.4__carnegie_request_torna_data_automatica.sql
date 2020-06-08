@@ -1,0 +1,1 @@
+alter table requests MODIFY COLUMN creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP;

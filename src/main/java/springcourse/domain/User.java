@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sun.istack.NotNull;
 
 import lombok.AllArgsConstructor;
@@ -44,16 +45,20 @@ public class User implements Serializable{
 	private String email;
 	
 	@NotNull
+	@Getter(onMethod = @__({@JsonIgnore}))
+	@Setter(onMethod = @__({@JsonProperty}))
 	private String password;
 	
 	@Enumerated(EnumType.STRING)
 	private Role role;
 
+	@Getter(onMethod = @__({@JsonIgnore}))
+	@Setter(onMethod = @__({@JsonProperty}))
 	@OneToMany(mappedBy = "owner")
-	@JsonIgnore
 	private List<Request> requests = new ArrayList<>();
 	
-	@JsonIgnore
+	@Getter(onMethod = @__({@JsonIgnore}))
+	@Setter(onMethod = @__({@JsonProperty}))
 	@OneToMany(mappedBy = "owner")
 	private List<RequestStage> stages = new ArrayList<>();
 	

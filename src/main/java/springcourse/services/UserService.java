@@ -19,11 +19,20 @@ public class UserService {
 	public User save(User user) {
 		return this.userRepository.save(user);
 	}
+
+	public User update(User user) {
+		return this.userRepository.save(user);
+	}
 	
 
 	public User getById(Long id) {
 		return this.userRepository.findById(id).get();
 	}
+
+	public Optional<User> getOptionalById(Long id) {
+		return this.userRepository.findById(id);
+	}
+	
 	
 	public List<User> getAll(){
 		return this.userRepository.findAll();

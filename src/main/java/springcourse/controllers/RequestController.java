@@ -47,10 +47,6 @@ public class RequestController {
 		return ResponseEntity.ok(this.requestService.listAll());
 	}
 
-	@GetMapping(value = "/{ownerId}")
-	public ResponseEntity<List<Request>> listAllByOwnerId(@PathVariable(name = "ownerId") Long id){
-		return ResponseEntity.ok(this.requestService.listAllByOnwerId(id));
-	}
 	
 	@GetMapping(value = "/{id}/request-stages")
 	public ResponseEntity<List<RequestStage>> listAllStagesByRequestId(@PathVariable(name = "id") Long id){
