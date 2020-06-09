@@ -1,6 +1,7 @@
 package springcourse.controllers;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -39,7 +40,7 @@ public class RequestController {
 
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<Request> getById(@PathVariable(name = "id") Long id){
-		return ResponseEntity.ok(this.requestService.getById(id));
+		return ResponseEntity.ok(this.requestService.getById(id).get());
 	}
 	
 	@GetMapping
@@ -52,6 +53,17 @@ public class RequestController {
 	public ResponseEntity<List<RequestStage>> listAllStagesByRequestId(@PathVariable(name = "id") Long id){
 		return ResponseEntity.ok(this.requestStageService.listAllByRequestId(id));
 	}
+	
+	@PostMapping(value = "/{id}/request-stages")
+	public ResponseEntity<RequestStage> InsertStagesByRequestId(@RequestBody RequestStage stage, @PathVariable(name = "id") Long id){
+		Optional<Request> request = this.requestService.getById(id);
+		if (request.isPresent()) {
+			stage.setRequest(request.get());
+			return ResponseEntity.ok(this.requestStageService.save(stage));	
+		}
+		return ResponseEntity.notFound().build();
+		
+	}	
 
 	
 }

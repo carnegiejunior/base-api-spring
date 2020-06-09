@@ -1,6 +1,7 @@
 package springcourse.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,8 +25,8 @@ public class RequestService {
 			return this.requestRepository.save(request);
 		}
 		
-		public Request getById(Long id) {
-			return this.requestRepository.findById(id).get();
+		public Optional<Request> getById(Long id) {
+			return this.requestRepository.findById(id);
 		}
 		
 		public List<Request> listAll(){

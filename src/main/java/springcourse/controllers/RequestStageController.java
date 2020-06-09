@@ -1,5 +1,7 @@
 package springcourse.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +15,7 @@ import springcourse.domain.RequestStage;
 import springcourse.services.RequestStageService;
 
 @RestController
-@RequestMapping(value = "request-stage")
+@RequestMapping(value = "requests-stages")
 public class RequestStageController {
 
 	@Autowired private RequestStageService requestStageService;
@@ -26,6 +28,11 @@ public class RequestStageController {
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<RequestStage> getById(@PathVariable(name = "id") Long id){
 		return ResponseEntity.ok(this.requestStageService.getById(id));
+	}
+	
+	@GetMapping
+	public ResponseEntity<List<RequestStage>> listAllRequestStage(){
+		return ResponseEntity.ok(this.requestStageService.listAll());
 	}
 	
 }

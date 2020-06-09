@@ -45,4 +45,9 @@ public class RequestStageService {
 		
 	}
 
+	public List<RequestStage> listAll() {
+
+		return this.requestStageRepository.findAll();
+	}
+
 }
