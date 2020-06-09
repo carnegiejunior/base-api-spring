@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import springcourse.domain.User;
+import springcourse.exceptions.NotFoundException;
 import springcourse.repository.UserRepository;
 
 @Service
@@ -26,7 +27,9 @@ public class UserService {
 	
 
 	public User getById(Long id) {
-		return this.userRepository.findById(id).get();
+		return this.userRepository.findById(id).orElseThrow(
+				()-> new NotFoundException("Usuário não encontrato com o id: "+id)
+				);
 	}
 
 	public Optional<User> getOptionalById(Long id) {
