@@ -47,5 +47,22 @@ class UserRepositoryTest {
 	
 	}
 	
+	@Test
+	void deve_AtualizarRoleUsuario() {
+		
+		User user = new User(null,USER_NAME_1,EMAIL_USER,"123",Role.SIMPLE,null,null);
+		
+		this.userRepository.save(user);
+		
+		Optional<User> findedUser = this.userRepository.findUserByEmail(EMAIL_USER);
+		
+		int affectedRows = this.userRepository.updateRole(findedUser.get().getId(), Role.ADMINISTRATOR);
+		
+		assertThat(affectedRows).isEqualTo(1);
+		
+		this.userRepository.delete(findedUser.get());
+		
+	}
+	
 
 }

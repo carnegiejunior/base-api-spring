@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -11,10 +12,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.sun.istack.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -25,41 +29,46 @@ import springcourse.domain.enums.Role;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter @Setter
+@Getter
+@Setter
 
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity(name = "users")
-public class User implements Serializable{
-	
+public class User implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 
 	@EqualsAndHashCode.Include
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Id
 	private Long id;
-	
-	@NotNull
+
+	@Size(min = 5)
+	@NotBlank(message = "User name is required")
 	private String name;
-	
-	@NotNull
+
+	@NotBlank(message = "Email is required")
+	@Email
 	private String email;
-	
+
 	@NotNull
-	@Getter(onMethod = @__({@JsonIgnore}))
-	@Setter(onMethod = @__({@JsonProperty}))
+	@NotBlank(message = "Password is required")
+	@Getter(onMethod = @__({ @JsonIgnore }))
+	@Setter(onMethod = @__({ @JsonProperty }))
 	private String password;
-	
+
 	@Enumerated(EnumType.STRING)
+	@Column(updatable = false)
 	private Role role;
 
-	@Getter(onMethod = @__({@JsonIgnore}))
-	@Setter(onMethod = @__({@JsonProperty}))
+	@Getter(onMethod = @__({ @JsonIgnore }))
+	@Setter(onMethod = @__({ @JsonProperty }))
 	@OneToMany(mappedBy = "owner")
 	private List<Request> requests = new ArrayList<>();
-	
-	@Getter(onMethod = @__({@JsonIgnore}))
-	@Setter(onMethod = @__({@JsonProperty}))
+
+	@Getter(onMethod = @__({ @JsonIgnore }))
+	@Setter(onMethod = @__({ @JsonProperty }))
 	@OneToMany(mappedBy = "owner")
 	private List<RequestStage> stages = new ArrayList<>();
-	
+
 }

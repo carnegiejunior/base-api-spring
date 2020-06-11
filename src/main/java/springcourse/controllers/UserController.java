@@ -3,21 +3,29 @@ package springcourse.controllers;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import springcourse.domain.Request;
 import springcourse.domain.User;
 import springcourse.dto.UserLoginDTO;
+import springcourse.dto.UserSaveDTO;
+import springcourse.dto.UserUpdateRoleDTO;
+import springcourse.model.PageModel;
+import springcourse.model.PageRequestModel;
 import springcourse.services.RequestService;
 import springcourse.services.UserService;
 
@@ -29,14 +37,14 @@ public class UserController {
 	@Autowired RequestService requestService;
 	
 	@PostMapping
-	public ResponseEntity<User> save(@RequestBody User user) {
-		User createdUser = this.userService.save(user); 
+	public ResponseEntity<User> save(@RequestBody @Valid UserSaveDTO user) {
+		User createdUser = this.userService.save(user.TransformToUser()); 
 		return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
 	}
 	
 	
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<User> update(@RequestBody User user, @PathVariable(name = "id") Long id) {
+	public ResponseEntity<User> update(@RequestBody @Valid User user, @PathVariable(name = "id") Long id) {
 		
 		Optional<User> userFound = this.userService.getOptionalById(id);
 		if (userFound.isPresent()) {
@@ -48,6 +56,16 @@ public class UserController {
 		}
 		return ResponseEntity.notFound().build();			
 	}
+	
+	@PatchMapping("/role/{id}")
+	public ResponseEntity<?> updateRole(@PathVariable(name = "id") Long id,
+			@RequestBody @Valid UserUpdateRoleDTO userDTO) {
+		User user = new User();
+		user.setId(id);
+		user.setRole(userDTO.getRole());
+		this.userService.updateRole(user);
+		return ResponseEntity.ok().build();
+	}	
 
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<User> getUserById(@PathVariable(name = "id") Long id) {
@@ -55,15 +73,36 @@ public class UserController {
 		return ResponseEntity.ok(user);
 	}
 
+//	@GetMapping
+//	public ResponseEntity<List<User>> listAll() {
+//		return ResponseEntity.ok(this.userService.getAll());
+//	}
+
 	@GetMapping
-	public ResponseEntity<List<User>> listAll() {
-		return ResponseEntity.ok(this.userService.getAll());
+	public ResponseEntity<PageModel<User>> listAll(
+			@RequestParam(value = "page", defaultValue = "0") int page, 
+			@RequestParam(value = "size", defaultValue = "5") int size) {
+		
+		Optional<PageRequestModel> optionalPageRequestModel = null;
+		Optional<PageModel<User>> optionalUserPageModel = null;
+		
+		optionalPageRequestModel = Optional.ofNullable(new PageRequestModel(page, size));
+		
+		if (optionalPageRequestModel.isPresent()) {
+
+			optionalUserPageModel = this.userService.listAllOnLazyMode(optionalPageRequestModel);
+			if (optionalUserPageModel.isPresent()) {
+				return ResponseEntity.ok(optionalUserPageModel.get());
+			}
+		
+		}
+		return ResponseEntity.notFound().build();
 	}
 	
 	
 	
 	@PostMapping( value = "/login")
-	public ResponseEntity<User> login(@RequestBody UserLoginDTO user) {
+	public ResponseEntity<User> login(@RequestBody @Valid UserLoginDTO user) {
 		return ResponseEntity.ok(this.userService.login(user.getEmail(), user.getPassword()));
 	}
 	
