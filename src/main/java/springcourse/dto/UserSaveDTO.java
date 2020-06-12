@@ -21,7 +21,7 @@ import springcourse.domain.User;
 public class UserSaveDTO {
 	
 	@NotBlank( message = "User name is required")
-	@Size(min = 5)
+	@Size(min = 5, message = "User name must be at least 5 letters")
 	private String name;
 	
 	@Email
