@@ -73,11 +73,6 @@ public class UserController {
 		return ResponseEntity.ok(user);
 	}
 
-//	@GetMapping
-//	public ResponseEntity<List<User>> listAll() {
-//		return ResponseEntity.ok(this.userService.getAll());
-//	}
-
 	@GetMapping
 	public ResponseEntity<PageModel<User>> listAll(
 			@RequestParam(value = "page", defaultValue = "0") int page, 
