@@ -20,6 +20,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	@Query("SELECT DISTINCT u FROM users u WHERE u.email = ?1")
 	public Optional<User> findUserByEmail(String email);
 	
+	//public Optional<User> findByEmail(String email);
+	
+	
 	@Transactional(readOnly = false)
 	@Modifying
 	@Query("UPDATE users SET role = ?2 WHERE id = ?1")

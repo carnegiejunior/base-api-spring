@@ -16,7 +16,7 @@ import springcourse.model.PageRequestModel;
 import springcourse.repository.UserRepository;
 
 @Service
-public class UserService {
+public class UserService{
 
 	@Autowired
 	UserRepository userRepository;
@@ -81,6 +81,8 @@ public class UserService {
 	public int updateRole(User user) {
 		return this.userRepository.updateRole(user.getId(), user.getRole());
 	}
+
+	
 	
 	
 }
