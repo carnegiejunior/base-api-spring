@@ -68,15 +68,15 @@ public class UserService{
 		return this.userRepository.findAll();
 	}
 	
-	public User login(String email, String password) {
-		
-		Optional<User> user = this.userRepository.login(email, password);
-		User result = null;
-		if (user.isPresent()){
-			result = user.get();
-		};
-		return result;
-	}
+//	public User login(String email, String password) {
+//		
+//		Optional<User> user = this.userRepository.login(email, password);
+//		User result = null;
+//		if (user.isPresent()){
+//			result = user.get();
+//		};
+//		return result;
+//	}
 	
 	public int updateRole(User user) {
 		return this.userRepository.updateRole(user.getId(), user.getRole());

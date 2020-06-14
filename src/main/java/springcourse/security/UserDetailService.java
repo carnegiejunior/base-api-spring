@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import springcourse.domain.User;
 
 @Service
-public class AppUserService implements UserDetailsService {
+public class UserDetailService implements UserDetailsService {
 
 	@Autowired
 	UserDetailRepository userDetailRepository;
