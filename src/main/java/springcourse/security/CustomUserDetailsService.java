@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import springcourse.domain.User;
 
 @Service
-public class UserDetailService implements UserDetailsService {
+public class CustomUserDetailsService implements UserDetailsService {
 
 	@Autowired
 	UserDetailRepository userDetailRepository;
@@ -27,8 +27,6 @@ public class UserDetailService implements UserDetailsService {
 
 		if (!locatedUser.isPresent())
 			throw new UsernameNotFoundException("Dosen't exist user with email = " + username);
-
-		
 
 		List<GrantedAuthority> authorities = Arrays.asList(new SimpleGrantedAuthority("ROLE_" + locatedUser.get().getRole().name()));
 

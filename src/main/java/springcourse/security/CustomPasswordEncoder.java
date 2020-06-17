@@ -9,12 +9,14 @@ public class CustomPasswordEncoder implements PasswordEncoder{
 
 	@Override
 	public String encode(CharSequence rawPassword) {
-		return DigestUtils.sha256Hex(rawPassword.toString());
+		String hash = DigestUtils.sha256Hex(rawPassword.toString());
+		return hash;
 	}
 
 	@Override
 	public boolean matches(CharSequence rawPassword, String encodedPassword) {
-		return DigestUtils.sha256Hex(rawPassword.toString()).equals(encodedPassword);
+		String hash = DigestUtils.sha256Hex(rawPassword.toString());
+		return hash.equals(encodedPassword);
 	}
 
 	

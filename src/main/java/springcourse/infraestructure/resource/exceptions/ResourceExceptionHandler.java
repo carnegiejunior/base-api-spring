@@ -8,6 +8,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -32,6 +33,19 @@ public class ResourceExceptionHandler extends ResponseEntityExceptionHandler{
 	}
 	
 
+	@ExceptionHandler(BadCredentialsException.class)
+	public ResponseEntity<ApiError> handleBadCredentialException(BadCredentialsException badCredentialsException){
+		
+		ApiError error = new ApiError(
+				HttpStatus.UNAUTHORIZED.value(), 
+				badCredentialsException.getMessage(), 
+				new Date()
+		);
+		
+		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
+	}
+
+	
 	@ExceptionHandler(DataIntegrityViolationException.class)
 	public ResponseEntity<ApiError> handleDataIntegrityViolationException(DataIntegrityViolationException dataIntegrityViolationException){
 		
