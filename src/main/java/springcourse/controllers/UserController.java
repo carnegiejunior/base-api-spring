@@ -8,16 +8,14 @@ import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,17 +28,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import springcourse.domain.Request;
 import springcourse.domain.User;
-
 import springcourse.dto.UserLoginDTO;
 import springcourse.dto.UserLoginResponseDTO;
 import springcourse.dto.UserSaveDTO;
 import springcourse.dto.UserUpdateRoleDTO;
-
 import springcourse.model.PageModel;
 import springcourse.model.PageRequestModel;
-
+import springcourse.security.AccessManager;
 import springcourse.security.JwtManager;
-
 import springcourse.services.RequestService;
 import springcourse.services.UserService;
 
@@ -52,9 +47,13 @@ public class UserController {
 	@Autowired private RequestService requestService;
 	@Autowired private AuthenticationManager authManager;
 	
+	@SuppressWarnings("unused")
+	@Autowired private AccessManager accessManager;
+	
 	@Autowired private JwtManager jwtManager;
 	
 	@PostMapping
+	@Secured({"ROLE_ADMINISTRATOR"})
 	public ResponseEntity<User> save(@RequestBody @Valid UserSaveDTO user) {
 		User createdUser = this.userService.save(user.TransformToUser()); 
 		return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
@@ -62,6 +61,7 @@ public class UserController {
 	
 
 	@PutMapping(value = "/{id}")
+	@PreAuthorize("@accessManager.isOwner(#id)")
 	public ResponseEntity<User> update(@RequestBody @Valid User user, @PathVariable(name = "id") Long id) {
 		
 		Optional<User> userFound = this.userService.getOptionalById(id);
@@ -75,6 +75,7 @@ public class UserController {
 		return ResponseEntity.notFound().build();			
 	}
 	
+	//@Secured({"ROLE_ADMINISTRATOR"})
 	@PatchMapping("/role/{id}")
 	public ResponseEntity<?> updateRole(@PathVariable(name = "id") Long id,
 			@RequestBody @Valid UserUpdateRoleDTO userDTO) {

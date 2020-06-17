@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import springcourse.domain.Request;
 import springcourse.domain.RequestStage;
+import springcourse.security.AccessManager;
 import springcourse.services.RequestService;
 import springcourse.services.RequestStageService;
 
@@ -26,12 +28,16 @@ public class RequestController {
 	@Autowired private RequestService requestService;
 	@Autowired private RequestStageService requestStageService;
 	
+	@SuppressWarnings("unused")
+	@Autowired private AccessManager accessManager;
+	
 	@PostMapping
 	public ResponseEntity<Request> save(@RequestBody Request request) {
 		return ResponseEntity.status(HttpStatus.CREATED).body(this.requestService.save(request));
 	}
 
 	@PutMapping(value = "/{id}")
+	@PreAuthorize("@accessManager.isRequestOwner(#id)")
 	public ResponseEntity<Request> update(@PathVariable(name = "id") Long id, @RequestBody Request request) {
 		request.setId(id);
 		return ResponseEntity.ok(this.requestService.update(request));
