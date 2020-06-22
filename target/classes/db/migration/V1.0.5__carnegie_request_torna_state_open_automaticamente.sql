@@ -1,1 +1,0 @@
-ALTER TABLE requests ALTER state SET DEFAULT 'OPEN';

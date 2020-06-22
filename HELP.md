@@ -1,7 +1,7 @@
 # Read Me First
 The following was discovered as part of building this project:
 
-* The original package name 'spring-course' is invalid and this project uses 'springcourse' instead.
+* The original package name 'spring-course' is invalid and this project uses 'api' instead.
 
 # Getting Started
 

@@ -90,8 +90,8 @@
 		<dependency>
 			<groupId>commons-codec</groupId>
 			<artifactId>commons-codec</artifactId>
-			<version>1.14</version>
-		</dependency>
+<!-- 			<version>1.14</version>
+ -->		</dependency>
 
 
 
