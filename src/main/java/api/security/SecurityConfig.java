@@ -42,8 +42,48 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable().authorizeRequests().anyRequest().authenticated();
-		http.addFilterBefore(new AuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
 
+//		http.csrf().disable().authorizeRequests()
+//		.anyRequest().authenticated();
+
+		http
+			.cors().and()
+			//.configurationSource(corsConfigurationSource()).and()
+			.csrf().disable().authorizeRequests()
+//			.requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
+			.anyRequest().authenticated();
+
+		http.addFilterBefore(new AuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
 	}
+
+	
+//	@Bean
+//	CorsConfigurationSource corsConfigurationSource() {
+//	        CorsConfiguration configuration = new CorsConfiguration();
+//	        configuration.setAllowedOrigins(Arrays.asList("*"));
+//	        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "OPTIONS", "DELETE", "PUT", "PATCH"));
+//	        configuration.setAllowedHeaders(Arrays.asList("X-Requested-With", "Origin", "Content-Type", "Accept", "Authorization"));
+//	        configuration.setAllowCredentials(true);
+//	        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//	        source.registerCorsConfiguration("/**", configuration);
+//	        return source;
+//	    }	
+	
+//	@Bean
+//	CorsConfigurationSource corsConfigurationSource() {
+//		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//		source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
+//		return source;
+//	}
+//	@Bean
+//	CorsConfigurationSource corsConfigurationSource() {
+//		CorsConfiguration configuration = new CorsConfiguration();
+//		configuration.setAllowedOrigins(Arrays.asList("/**", "http://www.dev.local:8080",
+//				"http://www.dev.local:8080/users/login", "http://www.dev.local/login.html","http://www.dev.local"));
+//		configuration.setAllowedMethods(Arrays.asList("OPTION", "GET", "POST", "PUT"));
+//		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//		source.registerCorsConfiguration("/**", configuration);
+//		return source;
+//	}
+
 }

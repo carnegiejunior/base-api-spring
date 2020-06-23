@@ -35,6 +35,7 @@ import api.model.PageModel;
 import api.model.PageRequestModel;
 import api.security.JwtManager;
 import api.services.UserService;
+import api.utils.PasswordEncoder;
 
 @RestController
 @RequestMapping(value = "users")
@@ -47,6 +48,7 @@ public class UserController {
 	@PostMapping
 	@Secured({"ROLE_ADMINISTRATOR"})
 	public ResponseEntity<User> save(@RequestBody @Valid UserSaveDTO user) {
+		user.setPassword(PasswordEncoder.encode(user.getPassword()));
 		User createdUser = this.userService.save(user.TransformToUser()); 
 		return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
 	}
