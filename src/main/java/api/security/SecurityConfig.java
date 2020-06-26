@@ -42,19 +42,61 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-
-//		http.csrf().disable().authorizeRequests()
-//		.anyRequest().authenticated();
-
 		http
-			.cors().and()
-			//.configurationSource(corsConfigurationSource()).and()
-			.csrf().disable().authorizeRequests()
+			.cors()
+				.and()
+					.csrf()
+						.disable()
+						.authorizeRequests()
+						.anyRequest()
+						.authenticated()
+				.and()
+					.addFilterBefore(new AuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
+		
+//		.authorizeRequests()
+//		.antMatchers("/", "/home").permitAll()
+//		.anyRequest().authenticated()
+//		.and()
+//	.formLogin()
+//		.loginPage("/login")
+//		.permitAll()
+//		.and()
+//	.logout()
+//		.permitAll()		
+		
+		
+//		http
+//		.authorizeRequests()
+//			.antMatchers("/", "/home").permitAll()
+//			.anyRequest().authenticated()
+//			.and()
+//		.formLogin()
+//			.loginPage("/login")
+//			.permitAll()
+//			.and()
+//		.logout()
+//			.permitAll();		
 //			.requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-			.anyRequest().authenticated();
+			//.configurationSource(corsConfigurationSource()).and()
+//			.csrf().disable().authorizeRequests()
+//			.requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
+//			.anyRequest().authenticated()
+			
+//			.and().formLogin()
+//	          .loginPage("/login.html")
+//	          .loginProcessingUrl("/users/login")
+//	          .defaultSuccessUrl("/", true)
+//	          //.failureUrl("/login.html?error=true")
+//	          //.failureHandler(authenticationFailureHandler())
+//	          .and()
+//	          .logout()
+//	          .logoutUrl("/perform_logout")
+//	          .deleteCookies("JSESSIONID")
+	          //.logoutSuccessHandler(logoutSuccessHandler());
 
-		http.addFilterBefore(new AuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
+	          //.and().addFilterBefore(new AuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
 	}
+
 
 	
 //	@Bean

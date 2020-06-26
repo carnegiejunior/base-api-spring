@@ -36,4 +36,15 @@ public class UserSaveDTO {
 		
 	}
 	
+	
+//	public Date getSubmissionDateConverted(String timezone) throws ParseException {
+//        dateFormat.setTimeZone(TimeZone.getTimeZone(timezone));
+//        return dateFormat.parse(this.date);
+//    }
+// 
+//    public void setSubmissionDate(Date date, String timezone) {
+//        dateFormat.setTimeZone(TimeZone.getTimeZone(timezone));
+//        this.date = dateFormat.format(date);
+//    }	
+	
 }
