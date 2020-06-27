@@ -9,8 +9,6 @@ $(document).ready(function () {
             username: $('#username').val(),
             password: $('#password').val()
         };
-        //console.log(loginFields);
-        //console.log($('username').val());
 
         $("#loginCard").removeClass("animate__animated animate__shakeX");
 
@@ -26,10 +24,10 @@ $(document).ready(function () {
                 // },
                 type: "POST",
                 contentType: 'application/json',
-                beforeSend: function (xhr) {
-                    //xhr.setRequestHeader(header, token);
-                    xhr.overrideMimeType("application/json; charset=uf8");
-                },
+                // beforeSend: function (xhr) {
+                //     //xhr.setRequestHeader(header, token);
+                //     xhr.overrideMimeType("application/json; charset=uf8");
+                // },
                 url: 'http://api.dev.local:8080/users/login',
                 data: JSON.stringify(loginFields),
                 dataType: 'json',
@@ -40,7 +38,7 @@ $(document).ready(function () {
                     localStorage.setItem("token", data.token);
                     localStorage.setItem("tokenProvider", data.bearer);
                     localStorage.setItem("expireIn", data.expireIn);
-                    $(location).prop('href', '/')
+                    $(location).prop('href', '/home.html')
                 },
                 error: function (jqXhr, textStatus, errorThrown) {
                     $("#loginCard").addClass("animate__animated animate__shakeX");
